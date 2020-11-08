@@ -24,9 +24,22 @@ app.get("/", function (req, res) {
   
   console.log("running in browser..");
   
-  res.render("home");
+  res.render("home", {
+    startingContent: homeStartingContent
+  });
 });
 
+app.get("/about", function (req, res) {
+  res.render("about", {
+    about: aboutContent
+  });
+});
+
+app.get("/contact", function (req, res) {
+  res.render("contact", {
+    contact: contactContent
+  });
+});
 
 
 
