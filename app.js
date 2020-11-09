@@ -25,10 +25,11 @@ app.get("/", function (req, res) {
   console.log("running in browser..");
   
   res.render("home", {
-    startingContent: homeStartingContent
+    startingContent: homeStartingContent,
+    newPost: posts 
   });
 
-  console.log(posts);
+  
 });
 
 app.get("/about", function (req, res) {
@@ -54,9 +55,9 @@ app.post("/compose", function (req, res) {
     Content: req.body.postContent
   };
 
+  //push new post into the array 
   posts.push(post);
  
-  
   res.redirect("/");
 });
 
