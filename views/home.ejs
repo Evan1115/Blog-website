@@ -2,9 +2,9 @@
 <h1>Home</h1>
 <p><%= startingContent %></p>
 
-<% for (var i in newPost) { %>
-    <h1> <%= newPost[i].Title %> </h1>
-    <p> <%= newPost[i].Content %> </p>
-<% } %> 
+<% newPost.forEach(post => {  %>
+    <h1> <%= post.Title %> </h1>
+    <p> <%= post.Content %> </p>
+<% }); %> 
 
 <%- include("partials/footer"); -%>

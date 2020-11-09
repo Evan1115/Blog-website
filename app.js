@@ -32,6 +32,10 @@ app.get("/", function (req, res) {
   
 });
 
+app.get("/posts/:postid", function (req, res) {
+  console.log(req.params.postid)
+})
+
 app.get("/about", function (req, res) {
   res.render("about", {
     about: aboutContent
