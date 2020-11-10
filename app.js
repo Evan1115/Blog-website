@@ -34,15 +34,17 @@ app.get("/", function (req, res) {
 });
 
 app.get("/posts/:postTitle", function (req, res) {
-  const requestedTitle = _.startCase(req.params.postTitle);
+  const requestedTitle = _.lowerCase(req.params.postTitle);
   console.log(requestedTitle);
  
- posts.forEach(post => {
-   if (requestedTitle == post.Title) {
-     console.log("macthed found")
-   } else {
-     console.log("notmatch")
-   }
+  posts.forEach(post => {
+   
+   if (requestedTitle === _.lowerCase(post.Title)) {
+     res.render("post", {
+       postTitle: post.Title,
+       individualPost: post.Content
+     });
+   } 
  });
 
 });

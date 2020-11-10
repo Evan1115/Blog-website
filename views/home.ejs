@@ -4,7 +4,7 @@
 
 <% newPost.forEach(post => {  %>
     <h1> <%= post.Title %> </h1>
-    <p> <%= post.Content %> </p>
+    <p> <%= post.Content.substring(0,100) + "..." %> </p>
 <% }); %> 
 
 <%- include("partials/footer"); -%>
