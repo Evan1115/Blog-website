@@ -33,7 +33,7 @@ const blogSchema = mongoose.Schema({
 const Blog = mongoose.model("Blog", blogSchema);
 
 
-const posts = [];
+let posts = [];
 
 
 app.get("/", function (req, res) {
@@ -41,6 +41,7 @@ app.get("/", function (req, res) {
   console.log("running in browser..");
   Blog.find({}, function (err, postArray) {
     console.log(postArray);
+    posts = postArray;
     res.render("home", {
       startingContent: homeStartingContent,
       newPost: postArray
@@ -51,20 +52,18 @@ app.get("/", function (req, res) {
   
 });
 
-app.get("/posts/:postTitle", function (req, res) {
-  const requestedTitle = _.lowerCase(req.params.postTitle);
-  console.log(requestedTitle);
- 
-  posts.forEach(post => {
-   
-   if (requestedTitle === _.lowerCase(post.Title)) {
-     res.render("post", {
-       postTitle: post.Title,
-       individualPost: post.Content
-     });
-   } 
- });
-
+app.get("/posts/:postID", function (req, res) {
+  const requestedPostID = req.params.postID;
+  console.log(requestedPostID);
+  
+  Blog.findById(requestedPostID, function (err, result) {
+    
+    res.render("post", {
+      postTitle: result.title,
+      individualPost: result.content
+    });
+  });
+  
 });
 
 app.get("/about", function (req, res) {
@@ -95,13 +94,17 @@ app.post("/compose", function (req, res) {
     content: post.Content
   });
 
-  newPost.save();
+  newPost.save(function (err ){
+    if (!err) {
+      res.redirect("/");
+    }
+  });
 
   //push new post into the array 
  // posts.push(post);
  
   
-  res.redirect("/");
+ 
 });
 
 
