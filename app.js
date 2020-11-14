@@ -6,7 +6,7 @@ const ejs = require("ejs");
 const _ = require("lodash");
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/blogDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://admin-joram:test123@cluster0.zrz8i.mongodb.net/blogDB', { useNewUrlParser: true });
 
 
 
@@ -17,31 +17,26 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 const app = express();
 
 app.set('view engine', 'ejs');
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-
-
-
 
 
 const blogSchema = mongoose.Schema({
   title: String,
   content: String
 });
-
 const Blog = mongoose.model("Blog", blogSchema);
 
 
-let posts = [];
+
 
 
 app.get("/", function (req, res) {
   
-  console.log("running in browser..");
+  
   Blog.find({}, function (err, postArray) {
-    console.log(postArray);
-    posts = postArray;
+    
+   
     res.render("home", {
       startingContent: homeStartingContent,
       newPost: postArray
@@ -54,14 +49,15 @@ app.get("/", function (req, res) {
 
 app.get("/posts/:postID", function (req, res) {
   const requestedPostID = req.params.postID;
-  console.log(requestedPostID);
   
+  //find which post has been chosen by searching for the post id 
   Blog.findById(requestedPostID, function (err, result) {
     
     res.render("post", {
       postTitle: result.title,
       individualPost: result.content
     });
+
   });
   
 });
@@ -100,8 +96,7 @@ app.post("/compose", function (req, res) {
     }
   });
 
-  //push new post into the array 
- // posts.push(post);
+ 
  
   
  
